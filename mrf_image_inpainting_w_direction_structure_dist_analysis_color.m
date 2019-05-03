@@ -1,7 +1,3 @@
-%% Stephen Xu
-% BME 544
-% Sina Farsiu
-
 % Implementation of the algorithm developped by Jixiang Cheng and Zhidan
 % Li for Markov random field-based image inpainting with direction
 % structure distribution analysis for maintaining structure coherence.
@@ -11,14 +7,14 @@ clear all; close all;
 addpath(genpath(pwd));
 
 %% Tunable parameters !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-image_name = 'tiles'; % must be 256 by 256 (PM limit), images folder, png
-alpha = 10; beta = .2; % (12)
+image_name = 'lena'; % must be 256 by 256 (PM limit), images folder, png
+alpha = 2; beta = .2; % (12)
 delta = 10; % implementation by paper 
 super_pixel = true;
 boundary = 2;
 
 % Put hole in image; row col width height
-hole = [80 80 100 100]; % [80 80 100 100]; [20 100 50 50]
+hole = [80 80 100 100]; % [50 160 180 70] [80 80 100 100]; [20 100 50 50]
 
 %% Load the image
 im_scale = 1;
@@ -89,7 +85,7 @@ for n = 1:4
     % canny edge and expansion operators
     im_edge = round(edge(A{n}, 'Canny'));
     % dilate the edges slightly
-    se = strel('ball', 5, 5);
+    se = strel('ball', 2, 2);
     I_d_n{n} = imdilate(im_edge, se);
     I_d_n{n} = rescale(I_d_n{n}, 0, 1) > 0.1; % normalize
     % Find I_gs_n
@@ -210,8 +206,8 @@ for idx = dds_indices
 end
 % according to the section, n is 1-5 where 5th uses I_ns.
 % struct_union
-temp = image; try; temp = gray2rgb(temp); catch; end;
-temp_2 = image; try; temp_2 = gray2rgb(temp_2); catch; end; % temp = image
+temp = struct_union; try; temp = gray2rgb(temp); catch; end;
+temp_2 = struct_union; try; temp_2 = gray2rgb(temp_2); catch; end; % temp = image
 NNF{5} = nnmex(temp, temp_2, 'cputiled', patchsize, iters, [], [], [], [], cores, valid_mask);
 fprintf('Finished PatchMatch for n=5 '); toc;
 
@@ -224,7 +220,7 @@ create_str_mask = @(image) (rescale(im2bw(image), 0 ,1) >.5);
 for idx = dds_indices
     S_n{idx} = get_offset(NNF{idx}, image);
     if idx == 5
-        structure = create_str_mask(F_L .* I_ns);    
+        structure = create_str_mask(~mask .* I_ns);    
     else
         structure = create_str_mask(~mask .* I_s_n{idx});
     end
@@ -283,11 +279,11 @@ elseif num_S_1_4 == 4
 else
     K2 = 20;
 end
-if super_pixel
-    K1 = 60; K2 = 60;
-else
-    K1 = 60; K2 = 60;
-end
+% if super_pixel
+%     K1 = 200; K2 = 200;
+% else
+%     K1 = 200; K2 = 200;
+% end
 
 h_top = {};
 % Pick out K highest peak values for all of them
