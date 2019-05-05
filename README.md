@@ -1,7 +1,7 @@
 # MRF_superpixel_based_Inpainting
-Method based on Cheng et al.
 
-A Markov Random Field superpixel based method for image inpainting.
+A Markov Random Field superpixel based algorithm for image inpainting. Method based on Cheng et al. Paper can be found [here](https://www.sciencedirect.com/science/article/pii/S0165168418302883).
+
 
 # How to Run
 * Install Matlab 2017b or higher
