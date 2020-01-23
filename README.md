@@ -7,6 +7,9 @@ Below is a demonstration of how this code works. The original image (left) is ma
 ![Original](https://github.com/AznStevy/MRF_superpixel_based_Inpainting/blob/master/images/fibers.png)
 ![Original masked](https://github.com/AznStevy/MRF_superpixel_based_Inpainting/blob/master/output/fibers_masked.png)
 ![Output using Superpixels](https://github.com/AznStevy/MRF_superpixel_based_Inpainting/blob/master/output/fibers_blended_sp.png)
+![Original](https://github.com/AznStevy/MRF_superpixel_based_Inpainting/blob/master/images/pebbles.png)
+![Original masked](https://github.com/AznStevy/MRF_superpixel_based_Inpainting/blob/master/output/pebbles_masked.png)
+![Output using Superpixels](https://github.com/AznStevy/MRF_superpixel_based_Inpainting/blob/master/output/pebbles_blended_sp.png)
 
 # How to Run
 * Install Matlab 2017b or higher
